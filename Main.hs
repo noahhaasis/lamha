@@ -1,5 +1,6 @@
 import           Control.Monad (unless)
 import           Data.List (notElem)
+import           Data.Either.Extra (fromEither)
 import           System.IO (hFlush, stdout)
 
 import qualified DeBruijn
@@ -22,9 +23,7 @@ eval s =
     let term = parse s
         deBruijn = DeBruijn.eval <$> (DeBruijn.fromTerm <$> term)
         res = (prettyTerm . DeBruijn.toTerm) <$> deBruijn
-    in case res of
-        Right s -> s
-        Left  e -> e
+    in fromEither res
 
 read_ :: IO String
 read_ = putStr "LC> "
