@@ -40,6 +40,7 @@ parse' (OpenParenT:r) = do
         (t:_)           -> unexpected t
         []              -> Left ("Expected closing parentheses")
 parse' (t:ts)            = unexpected t
+parse' [] = Left "Unexpected end of input"
 
 parse :: String -> Either String Term
 parse s = case (parse' =<< tokenize s) of
